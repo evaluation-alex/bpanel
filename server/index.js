@@ -5,8 +5,8 @@
 // --dev Watch server and webapp
 
 let poll = false;
-const webpackArgs = [];
 const path = require('path');
+const webpackArgs = ['--config', path.resolve(__dirname, 'node_modules/.bin/webpack')];
 
 // If run from command line, parse args
 if (require.main === module) {
@@ -41,7 +41,7 @@ module.exports = config => {
     watch: ['webapp/config/pluginsConfig.js'],
     args: webpackArgs,
     legacyWatch: poll,
-    cwd: path.join(__dirname, '..')
+    //cwd: path.join(__dirname, '..')
   })
     .on('crash', () => {
       process.exit(1);
