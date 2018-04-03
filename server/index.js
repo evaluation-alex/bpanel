@@ -6,7 +6,7 @@
 
 let poll = false;
 const path = require('path');
-const webpackArgs = ['--config', path.resolve(__dirname, 'node_modules/.bin/webpack')];
+const webpackArgs = ['--config', path.resolve(__dirname, '../webpack.config.js')];
 
 // If run from command line, parse args
 if (require.main === module) {
@@ -36,8 +36,10 @@ if (require.main === module) {
 // Init bPanel
 module.exports = config => {
   // Always start webpack
+  console.log("PWD", process.env.PWD, "cwd", process.cwd())
   require('nodemon')({
     script: './node_modules/.bin/webpack',
+    // script: path.resolve(process.cwd(), 'node_modules/.bin/webpack'),
     watch: ['webapp/config/pluginsConfig.js'],
     args: webpackArgs,
     legacyWatch: poll,
@@ -47,6 +49,22 @@ module.exports = config => {
       process.exit(1);
     })
     .on('quit', process.exit);
+  // const wp =
+
+  //TODO this wont work because we need to build plugins also
+  // const webpack = require('webpack');
+  // const wp = webpack(require('../webpack.config.js')({
+  //   dev: true //TODO
+  // }));
+  // const watching = wp.watch({
+  //   poll: false, //TODO
+  // })
+  // const ch = require('chokidar');
+  // ch.watch('webapp/config/pluginsConfig.js')
+  //   .on('all', (e) => {
+  //     console.log("======", e)
+  //     // watching.invalidate();
+  //   })
 
   if (!config) {
     // Load from ENV, secrets.env, & bcoin.env
