@@ -2,11 +2,15 @@
 
 const fs = require('fs');
 const { execSync } = require('child_process');
+let commit = '';
+try {
+  commit = execSync('git rev-parse HEAD').toString();
+} catch(e) { };
 
 fs.writeFileSync(
   'webapp/version.json',
   JSON.stringify({
-    commit: execSync('git rev-parse HEAD').toString(),
+    commit,
     version: require('../package.json').version
   })
 );

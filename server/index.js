@@ -6,6 +6,7 @@
 
 let poll = false;
 const webpackArgs = [];
+const path = require('path');
 
 // If run from command line, parse args
 if (require.main === module) {
@@ -39,7 +40,8 @@ module.exports = config => {
     script: './node_modules/.bin/webpack',
     watch: ['webapp/config/pluginsConfig.js'],
     args: webpackArgs,
-    legacyWatch: poll
+    legacyWatch: poll,
+    cwd: path.join(__dirname, '..')
   })
     .on('crash', () => {
       process.exit(1);
@@ -52,7 +54,6 @@ module.exports = config => {
   }
 
   // Import server dependencies
-  const path = require('path');
   const http = require('http');
   const express = require('express');
   const bsock = require('bsock').createServer();
