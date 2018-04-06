@@ -1,18 +1,23 @@
 'use strict';
 
-import fs from 'fs';
-import { resolve } from 'path';
-import logger from './logger';
+//import fs from 'fs';
+//import { resolve } from 'path';
+//import logger from './logger';
+const fs = require('fs');
+const path = require('path');
+const logger = require('./logger');
 
-const clearPlugins = async () => {
+module.exports = () => {
   const indexText = 'export default {};';
-  const pluginsPath = resolve(__dirname, '../webapp/plugins');
+  const pluginsPath = path.resolve(__dirname, '../webapp/plugins');
   try {
-    fs.writeFileSync(resolve(pluginsPath, 'local/index.js'), indexText);
-    fs.writeFileSync(resolve(pluginsPath, 'index.js'), indexText);
+    fs.writeFileSync(path.resolve(pluginsPath, 'local/index.js'), indexText);
+    fs.writeFileSync(path.resolve(pluginsPath, 'index.js'), indexText);
   } catch (e) {
     logger.error('There was an error clearing plugins: ', e);
   }
 };
 
-(async () => await clearPlugins())();
+if (require.main === module) {
+  module.exports();
+}
